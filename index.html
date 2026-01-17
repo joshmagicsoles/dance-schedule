@@ -151,17 +151,23 @@
             margin-top: 10px;
         }
 
-        .status-badge {
-            display: inline-block;
-            background: #333;
-            color: var(--gold);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
+        .status-box {
+    /* THIS IS THE LINE THAT LOADS THE PHOTO */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('bg-logo.jpg');
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* The rest of the styling... */
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    text-align: center;
+}
+
 
         #hero-class-name {
             font-size: 2rem;
