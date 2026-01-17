@@ -61,7 +61,6 @@
             width: 50px;
             border-radius: 50%;
             overflow: hidden;
-            /* Updated to Lime Green/Green Room Color */
             border: 2px solid var(--green-room);
         }
 
@@ -141,7 +140,6 @@
 
         /* --- DASHBOARD STATUS BOXES --- */
         .status-box {
-            /* Background Image Setup */
             background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('bg-logo.jpg');
             background-size: cover;
             background-position: center;
@@ -169,16 +167,10 @@
             border: 1px solid;
         }
 
-        /* GREEN MODE MAGIC: Rotates purple image to green */
-        .green-mode {
-            filter: hue-rotate(-150deg); 
-        }
-
-        /* Counter-rotate the text inside so it looks normal */
+        /* GREEN MODE MAGIC */
+        .green-mode { filter: hue-rotate(-150deg); }
         .green-mode .status-badge, 
-        .green-mode div {
-            filter: hue-rotate(150deg);
-        }
+        .green-mode div { filter: hue-rotate(150deg); }
 
         /* --- SCHEDULE LIST --- */
         .day-header {
@@ -279,6 +271,7 @@
         <div class="menu-item" onclick="navigate('Musical')">🎤 Musical Theatre</div>
         <div class="menu-item" onclick="navigate('Lyrical')">🦋 Lyrical</div>
         <div class="menu-item" onclick="navigate('Contemp')">🍃 Contemporary</div>
+        <div class="menu-item" onclick="navigate('Modern')">🖼️ Modern</div>
     
         <div class="menu-item" style="margin-top:20px; text-align:center; background:none; color:#666;" onclick="toggleMenu()">[ Close Menu ]</div>
     </div>
@@ -316,7 +309,7 @@
     </div>
 
     <script>
-        // --- 1. DATA ---
+        // --- DATA ---
         const scheduleData = [
           { day: "Tuesday", name: "Comp. Class", start: "4:00", end: "5:00", room: "Purple Room" },
           { day: "Tuesday", name: "Spark Ballet", start: "4:30", end: "5:15", room: "Green Room" },
@@ -349,7 +342,7 @@
           { day: "Friday", name: "Moonbeam Soft Shoe", start: "7:45", end: "8:45", room: "Purple Room" }
         ];
 
-        // --- 2. UTILITY FUNCTIONS ---
+        // --- UTILITY ---
 
         function getMinutes(timeStr) {
             let [h, m] = timeStr.split(':').map(Number);
@@ -370,12 +363,12 @@
             const lowerName = className.toLowerCase();
             const lowerFilter = filter.toLowerCase();
 
-            // SPECIAL RULE 1: Ballet button finds Pointe
+            // RULE: Ballet finds Pointe
             if (lowerFilter === 'ballet' && lowerName.includes('pointe')) return true;
 
-            // SPECIAL RULE 2: Contemp button finds Modern
-            if (lowerFilter === 'contemp' && lowerName.includes('modern')) return true;
-
+            // REMOVED: The rule that grouped Modern into Contemp
+            
+            // Default Search
             const knownLevels = ['luna', 'moonbeam', 'wisp', 'spark', 'firefly'];
             if (lowerFilter === 'other') {
                 return !knownLevels.some(level => lowerName.includes(level));
@@ -384,7 +377,7 @@
             return lowerName.includes(lowerFilter);
         }
 
-        // --- 3. RENDER FUNCTIONS ---
+        // --- RENDER ---
 
         function createClassRow(cls) {
             const roomColorClass = getRoomColorClass(cls.room);
@@ -411,13 +404,9 @@
             const todayName = days[now.getDay()];
             const nowMins = (now.getHours() * 60) + now.getMinutes();
 
-            // 1. Get today's classes
             const todayClasses = scheduleData.filter(c => c.day === todayName);
-            
-            // 2. Filter for UPCOMING classes (for list)
             const upcomingClasses = todayClasses.filter(c => getMinutes(c.start) > nowMins);
 
-            // 3. Find ACTIVE classes for each room
             const activePurple = todayClasses.find(c => {
                 const start = getMinutes(c.start);
                 const end = getMinutes(c.end);
@@ -430,7 +419,7 @@
                 return c.room.includes("Green") && nowMins >= start && nowMins < end;
             });
 
-            // 4. Update Purple Box
+            // Update Purple Box
             if (activePurple) {
                 document.getElementById('purple-class-name').innerText = activePurple.name;
                 document.getElementById('purple-status').innerText = `Until ${activePurple.end}`;
@@ -441,7 +430,7 @@
                 document.getElementById('box-purple').style.opacity = "0.5";
             }
 
-            // 5. Update Green Box
+            // Update Green Box
             if (activeGreen) {
                 document.getElementById('green-class-name').innerText = activeGreen.name;
                 document.getElementById('green-status').innerText = `Until ${activeGreen.end}`;
@@ -452,7 +441,7 @@
                 document.getElementById('box-green').style.opacity = "0.5";
             }
 
-            // 6. Update List Below
+            // Update List
             const dashList = document.getElementById('dashboard-list');
             if (upcomingClasses.length === 0) {
                 dashList.innerHTML = '<div style="opacity:0.6; font-style:italic">No more classes today.</div>';
@@ -515,9 +504,7 @@
         setInterval(updateDashboard, 60000); 
 
     </script>
-    
     <script>
-        // Service Worker for Install
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
