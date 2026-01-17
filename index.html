@@ -398,7 +398,7 @@
             `;
         }
 
-        function updateDashboard() {
+                function updateDashboard() {
             const now = new Date();
             const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             const todayName = days[now.getDay()];
@@ -419,7 +419,7 @@
                 return c.room.includes("Green") && nowMins >= start && nowMins < end;
             });
 
-            // Update Purple Box
+            // 4. Update Purple Box (Back to Stage Clear/Magic)
             if (activePurple) {
                 document.getElementById('purple-class-name').innerText = activePurple.name;
                 document.getElementById('purple-status').innerText = `Until ${activePurple.end}`;
@@ -430,7 +430,7 @@
                 document.getElementById('box-purple').style.opacity = "0.5";
             }
 
-            // Update Green Box
+            // 5. Update Green Box (Back to Stage Clear/Magic)
             if (activeGreen) {
                 document.getElementById('green-class-name').innerText = activeGreen.name;
                 document.getElementById('green-status').innerText = `Until ${activeGreen.end}`;
@@ -441,14 +441,21 @@
                 document.getElementById('box-green').style.opacity = "0.5";
             }
 
-            // Update List
+            // 6. Update List Below (THIS IS THE FUN PART)
             const dashList = document.getElementById('dashboard-list');
             if (upcomingClasses.length === 0) {
-                dashList.innerHTML = '<div style="opacity:0.6; font-style:italic">No more classes today.</div>';
+                // Director Vibe on Line 1, Teacher Vibe on Line 2
+                dashList.innerHTML = `
+                    <div style="text-align:center; padding: 30px; opacity:0.6;">
+                        <div style="font-size: 1.4rem; font-weight:800; margin-bottom: 5px;">🎬 That's a wrap! 🤸</div>
+                        <div style="font-size: 1rem;">Great job today, dancers!</div>
+                    </div>
+                `;
             } else {
                 dashList.innerHTML = upcomingClasses.map(cls => createClassRow(cls)).join('');
             }
         }
+
 
         function renderFilteredSchedule(filter) {
             const container = document.getElementById('schedule-list');
