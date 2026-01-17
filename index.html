@@ -300,44 +300,46 @@
                      style="width: 85%; max-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333;">
             </a>
         </div>
-                // --- JOKE ENGINE ---
-        const jokes = [
-            "Why did the dancer cross the road? To get to the barre! 🍫",
-            "What is a ballerina's favorite number? Two-two! 🩰",
-            "Why are fish so good at dancing? They have great scales! 🐟",
-            "How do you make a tissue dance? You put a little boogie in it! 🤧",
-            "Why did the magician wear tap shoes? For the Abra-cadabra-step! 🎩",
-            "Knock knock. \nWho's there? \nWanda. \nWanda who? \nWanda dance? 💃",
-            "What do you call a dancing sheep? A baaa-lerina! 🐑",
-            "Why was the dancer late? She was wearing a leotard! (Late-ard... get it?) ⏰",
-            "What kind of pie do dancers like? Pumpkin Pi-rouette! 🥧",
-            "Why couldn't the skeleton go to the dance? He had no body to go with! 💀",
-            "What's a magician's favorite makeup? Vanishing cream! 🧴",
-            "Why do dancers love math? Because they can count to 5, 6, 7, 8! 🔢",
-            "What dance do owls do? The Hoooo-la! 🦉",
-            "Knock knock. \nWho's there? \nDishes. \nDishes who? \nDishes the best dance ever! 🍽️",
-            "Why did the hip-hop dancer bring a ladder? To reach the high notes! 🪜",
-            "What do ghosts wear to ballet class? Boo-tuhs! 👻",
-            "Why did the tomato turn red? Because it saw the salad dressing! 🥗"
-        ];
+        
+             <script>
+    // --- JOKE ENGINE ---
+    const jokes = [
+        "Why did the dancer cross the road? To get to the barre! 🍫",
+        "What is a ballerina's favorite number? Two-two! 🩰",
+        "Why are fish so good at dancing? They have great scales! 🐟",
+        "How do you make a tissue dance? You put a little boogie in it! 🤧",
+        "Why did the magician wear tap shoes? For the Abra-cadabra-step! 🎩",
+        "Knock knock. \nWho's there? \nWanda. \nWanda who? \nWanda dance? 💃",
+        "What do you call a dancing sheep? A baaa-lerina! 🐑",
+        "Why was the dancer late? She was wearing a leotard! (Late-ard... get it?) ⏰",
+        "What kind of pie do dancers like? Pumpkin Pi-rouette! 🥧",
+        "Why couldn't the skeleton go to the dance? He had no body to go with! 💀",
+        "What's a magician's favorite makeup? Vanishing cream! 🧴",
+        "Why do dancers love math? Because they can count to 5, 6, 7, 8! 🔢",
+        "What dance do owls do? The Hoooo-la! 🦉",
+        "Knock knock. \nWho's there? \nDishes. \nDishes who? \nDishes the best dance ever! 🍽️",
+        "Why did the hip-hop dancer bring a ladder? To reach the high notes! 🪜",
+        "What do ghosts wear to ballet class? Boo-tuhs! 👻",
+        "Why did the tomato turn red? Because it saw the salad dressing! 🥗"
+    ];
 
-        function tellJoke() {
-            // 1. Pick a random joke
-            const randomIndex = Math.floor(Math.random() * jokes.length);
-            const selectedJoke = jokes[randomIndex];
+    function tellJoke() {
+        // 1. Pick a random joke
+        const randomIndex = Math.floor(Math.random() * jokes.length);
+        const selectedJoke = jokes[randomIndex];
 
-            // 2. Add a little 'pop' animation effect
-            const display = document.getElementById('joke-display');
-            display.style.transform = "scale(0.95)";
-            setTimeout(() => {
-                display.style.transform = "scale(1)";
-            }, 100);
+        // 2. Add a little 'pop' animation effect
+        const display = document.getElementById('joke-display');
+        display.style.transform = "scale(0.95)";
+        setTimeout(() => {
+            display.style.transform = "scale(1)";
+        }, 100);
 
-            // 3. Show the joke (replacing newlines with line breaks)
-            display.innerHTML = `<span style="font-weight:600; color:#fff; font-size:1.1rem;">${selectedJoke.replace(/\n/g, '<br>')}</span>`;
-        }
-
-
+        // 3. Show the joke
+        display.innerHTML = `<span style="font-weight:600; color:#fff; font-size:1.1rem;">${selectedJoke.replace(/\n/g, '<br>')}</span>`;
+    }
+</script>
+   
     </div>
 
     <div id="view-schedule" class="page-view">
