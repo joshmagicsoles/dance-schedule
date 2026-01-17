@@ -6,10 +6,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Dance Studio Hub</title>
     <link rel="icon" type="image/png" href="Icon.png?v=2">
-<link rel="apple-touch-icon" href="Icon.png?v=2">
-<link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="Icon.png?v=2">
+    <link rel="manifest" href="manifest.json">
 
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
@@ -62,6 +61,7 @@
             width: 50px;
             border-radius: 50%;
             overflow: hidden;
+            /* Updated to Lime Green/Green Room Color */
             border: 2px solid var(--green-room);
         }
 
@@ -79,17 +79,16 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1.2rem;
-            z-index: 1001; /* Ensure button is clickable above other elements */
+            z-index: 1001;
         }
         
-        /* Placeholder for spacing */
         .nav-spacer { width: 50px; } 
 
         /* --- MENU DRAWER --- */
         #menu-drawer {
             display: none; 
             position: fixed;
-            top: 81px; /* Height of navbar */
+            top: 81px;
             left: 0;
             width: 100%;
             height: calc(100% - 81px);
@@ -140,45 +139,45 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- DASHBOARD COMPONENTS --- */
-        .hero-card {
-            background: var(--surface-color);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid var(--border);
-            margin-bottom: 30px;
-            margin-top: 10px;
-        }
-
+        /* --- DASHBOARD STATUS BOXES --- */
         .status-box {
-    /* THIS IS THE LINE THAT LOADS THE PHOTO */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('bg-logo.jpg');
-    
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    /* The rest of the styling... */
-    padding: 30px;
-    border-radius: 20px;
-    margin-bottom: 30px;
-    border: 1px solid #333;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    text-align: center;
-}
-
-
-        #hero-class-name {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 5px;
-            line-height: 1.1;
+            /* Background Image Setup */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('bg-logo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            text-align: center;
+            transition: opacity 0.5s ease;
         }
 
-        #hero-room {
-            color: var(--text-muted);
-            font-size: 1rem;
+        .status-badge {
+            display: inline-block;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            border: 1px solid;
+        }
+
+        /* GREEN MODE MAGIC: Rotates purple image to green */
+        .green-mode {
+            filter: hue-rotate(-150deg); 
+        }
+
+        /* Counter-rotate the text inside so it looks normal */
+        .green-mode .status-badge, 
+        .green-mode div {
+            filter: hue-rotate(150deg);
         }
 
         /* --- SCHEDULE LIST --- */
@@ -249,10 +248,10 @@
         <div class="nav-spacer"></div>
 
         <div class="logo-container">
-    <a href="#" onclick="navigate('home'); return false;">
-        <img src="Icon.png" class="logo-img" alt="Logo">
-    </a>
-</div>
+            <a href="#" onclick="navigate('home'); return false;">
+                <img src="Icon.png" class="logo-img" alt="Logo">
+            </a>
+        </div>
 
         <button class="menu-btn" onclick="toggleMenu()">☰ MENU</button>
     </div>
@@ -275,22 +274,29 @@
     </div>
 
     <div id="view-home" class="page-view active-view">
-        <div class="status-box">
-            <div class="status-badge">Happening Now</div>
-            <div id="hero-class-name">Loading...</div>
-            <div id="hero-room">--</div>
+        
+        <div id="box-purple" class="status-box">
+            <div class="status-badge" style="border-color: var(--purple-room); color: var(--purple-room);">Purple Room</div>
+            <div id="purple-class-name" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 5px;">Loading...</div>
+            <div id="purple-status" style="color: #aaa; font-size: 0.9rem;">--</div>
+        </div>
+
+        <div id="box-green" class="status-box green-mode">
+            <div class="status-badge" style="border-color: var(--green-room); color: var(--green-room);">Green Room</div>
+            <div id="green-class-name" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 5px;">Loading...</div>
+            <div id="green-status" style="color: #aaa; font-size: 0.9rem;">--</div>
         </div>
         
         <h3 style="color:var(--text-muted)">Up Next Today</h3>
         <div id="dashboard-list"></div>
+
         <div style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
-    <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 10px; font-weight: bold;">COMING SOON</p>
-    
-    <a href="poster.jpg">
-        <img src="poster.jpg" alt="Recital Poster" 
-             style="width: 85%; max-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333;">
-    </a>
-</div>
+            <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 10px; font-weight: bold;">COMING SOON</p>
+            <a href="poster.jpg">
+                <img src="poster.jpg" alt="Recital Poster" 
+                     style="width: 85%; max-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333;">
+            </a>
+        </div>
 
     </div>
 
@@ -389,29 +395,48 @@
             const todayName = days[now.getDay()];
             const nowMins = (now.getHours() * 60) + now.getMinutes();
 
+            // 1. Get today's classes
             const todayClasses = scheduleData.filter(c => c.day === todayName);
             
-            const activeClasses = todayClasses.filter(c => {
-                const start = getMinutes(c.start);
-                const end = getMinutes(c.end);
-                return nowMins >= start && nowMins < end;
-            });
-
+            // 2. Filter for UPCOMING classes (for list)
             const upcomingClasses = todayClasses.filter(c => getMinutes(c.start) > nowMins);
 
-            const heroName = document.getElementById('hero-class-name');
-            const heroRoom = document.getElementById('hero-room');
-            
-            if (activeClasses.length > 0) {
-                heroName.innerText = activeClasses.length > 1 ? `${activeClasses.length} Classes Active` : activeClasses[0].name;
-                heroName.className = activeClasses.length === 1 ? getRoomColorClass(activeClasses[0].room) : '';
-                heroRoom.innerText = activeClasses.length === 1 ? activeClasses[0].room : "Check list below";
+            // 3. Find ACTIVE classes for each room
+            const activePurple = todayClasses.find(c => {
+                const start = getMinutes(c.start);
+                const end = getMinutes(c.end);
+                return c.room.includes("Purple") && nowMins >= start && nowMins < end;
+            });
+
+            const activeGreen = todayClasses.find(c => {
+                const start = getMinutes(c.start);
+                const end = getMinutes(c.end);
+                return c.room.includes("Green") && nowMins >= start && nowMins < end;
+            });
+
+            // 4. Update Purple Box
+            if (activePurple) {
+                document.getElementById('purple-class-name').innerText = activePurple.name;
+                document.getElementById('purple-status').innerText = `Until ${activePurple.end}`;
+                document.getElementById('box-purple').style.opacity = "1";
             } else {
-                heroName.innerText = "Quiet Time";
-                heroName.className = "";
-                heroRoom.innerText = "No classes in session";
+                document.getElementById('purple-class-name').innerText = "Empty";
+                document.getElementById('purple-status').innerText = "No class in session";
+                document.getElementById('box-purple').style.opacity = "0.5";
             }
 
+            // 5. Update Green Box
+            if (activeGreen) {
+                document.getElementById('green-class-name').innerText = activeGreen.name;
+                document.getElementById('green-status').innerText = `Until ${activeGreen.end}`;
+                document.getElementById('box-green').style.opacity = "1";
+            } else {
+                document.getElementById('green-class-name').innerText = "Empty";
+                document.getElementById('green-status').innerText = "No class in session";
+                document.getElementById('box-green').style.opacity = "0.5";
+            }
+
+            // 6. Update List Below
             const dashList = document.getElementById('dashboard-list');
             if (upcomingClasses.length === 0) {
                 dashList.innerHTML = '<div style="opacity:0.6; font-style:italic">No more classes today.</div>';
@@ -474,11 +499,12 @@
         setInterval(updateDashboard, 60000); 
 
     </script>
-<script>
-    // Register the Service Worker to enable "Install"
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-    }
-</script>
+    
+    <script>
+        // Service Worker for Install
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
 </body>
 </html>
