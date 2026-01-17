@@ -1,0 +1,20 @@
+{
+  "name": "Dance Schedule",
+  "short_name": "Dance",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#d674ff",
+  "icons": [
+    {
+      "src": "Icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "Icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
