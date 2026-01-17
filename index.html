@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Dance Studio Hub</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* DARK MODE PALETTE */
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            
+            /* ROOM COLORS */
+            --purple-room: #d674ff; 
+            --green-room: #00e676; 
+            
+            /* ACCENTS */
+            --gold: #ffd700;
+            --border: #333333;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            padding-bottom: 80px;
+        }
+
+        /* --- NAVIGATION BAR --- */
+        #navbar {
+            background-color: var(--surface-color);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            height: 60px;
+        }
+
+        /* LOGO STYLING */
+        .logo-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--gold);
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .menu-btn {
+            background: none;
+            border: 1px solid var(--text-muted);
+            color: var(--text-main);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 1001; /* Ensure button is clickable above other elements */
+        }
+        
+        /* Placeholder for spacing */
+        .nav-spacer { width: 50px; } 
+
+        /* --- MENU DRAWER --- */
+        #menu-drawer {
+            display: none; 
+            position: fixed;
+            top: 81px; /* Height of navbar */
+            left: 0;
+            width: 100%;
+            height: calc(100% - 81px);
+            background-color: rgba(0,0,0,0.95);
+            z-index: 999;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .menu-section-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .menu-item {
+            display: block;
+            background: var(--surface-color);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+
+        .menu-item:active {
+            background: #333;
+        }
+
+        /* --- PAGES --- */
+        .page-view {
+            display: none; 
+            padding: 20px;
+            animation: fadeIn 0.3s;
+        }
+        
+        .active-view {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- DASHBOARD COMPONENTS --- */
+        .hero-card {
+            background: var(--surface-color);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #333;
+            color: var(--gold);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        #hero-class-name {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            line-height: 1.1;
+        }
+
+        #hero-room {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* --- SCHEDULE LIST --- */
+        .day-header {
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        .class-row {
+            background-color: var(--surface-color);
+            margin-bottom: 12px;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border);
+        }
+
+        .time-col {
+            min-width: 70px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            border-right: 1px solid var(--border);
+            padding-right: 15px;
+            margin-right: 15px;
+        }
+
+        .info-col {
+            flex-grow: 1;
+        }
+
+        .class-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .room-indicator {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .text-purple { color: var(--purple-room); }
+        .text-green { color: var(--green-room); }
+        .border-purple { border-left: 4px solid var(--purple-room); }
+        .border-green { border-left: 4px solid var(--green-room); }
+
+        #filter-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="navbar">
+        <div class="nav-spacer"></div>
+
+        <div class="logo-container">
+            <img src="https://scontent-bos5-1.xx.fbcdn.net/v/t39.30808-6/433567825_10232755666293958_6758618494959535621_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=7P0vReib4RMQ7kNvwH4W8uy&_nc_oc=AdkhTSPRdkrOVEeGy8yXsAVi19MZUa4M7d4JDA1ZjFCR3zzx-THqITSpM7g2TAQ-MWInKlYI_YMWTT4ny-NpHxV-&_nc_zt=23&_nc_ht=scontent-bos5-1.xx&_nc_gid=pi5SOTqkLiu4UvFhhjHe0A&oh=00_AfoEL6IRzRuferYaND3Pjm9NOELhj6kHSiOcYqiWk879rg&oe=6970E71B" 
+                 class="logo-img" alt="Logo">
+        </div>
+
+        <button class="menu-btn" onclick="toggleMenu()">☰ MENU</button>
+    </div>
+
+    <div id="menu-drawer">
+        <div class="menu-section-label">Main</div>
+        <div class="menu-item" onclick="navigate('home')">🏠 Dashboard (Live)</div>
+        <div class="menu-item" onclick="navigate('all')">📅 Full Weekly Schedule</div>
+
+        <div class="menu-section-label">Filter by Level</div>
+        <div class="menu-item" onclick="navigate('Luna')">🌙 Luna Schedule</div>
+        <div class="menu-item" onclick="navigate('Moonbeam')">✨ Moonbeam Schedule</div>
+        <div class="menu-item" onclick="navigate('Wisp')">💨 Wisp Schedule</div>
+        <div class="menu-item" onclick="navigate('Spark')">⚡ Spark Schedule</div>
+        <div class="menu-item" onclick="navigate('Firefly')">🔥 Firefly Schedule</div>
+        
+        <div class="menu-section-label">Other</div>
+        <div class="menu-item" onclick="navigate('Other')">🟣 Other / Misc Classes</div>
+        <div class="menu-item" style="margin-top:20px; text-align:center; background:none; color:#666;" onclick="toggleMenu()">[ Close Menu ]</div>
+    </div>
+
+    <div id="view-home" class="page-view active-view">
+        <div class="hero-card">
+            <div class="status-badge">Happening Now</div>
+            <div id="hero-class-name">Loading...</div>
+            <div id="hero-room">--</div>
+        </div>
+        
+        <h3 style="color:var(--text-muted)">Up Next Today</h3>
+        <div id="dashboard-list"></div>
+    </div>
+
+    <div id="view-schedule" class="page-view">
+        <div id="filter-header">Full Schedule</div>
+        <div id="schedule-list"></div>
+    </div>
+
+    <script>
+        // --- 1. DATA ---
+        const scheduleData = [
+          { day: "Tuesday", name: "Comp. Class", start: "4:00", end: "5:00", room: "Purple Room" },
+          { day: "Tuesday", name: "Spark Ballet", start: "4:30", end: "5:15", room: "Green Room" },
+          { day: "Tuesday", name: "Luna & Moonbeam Ballet", start: "5:05", end: "6:05", room: "Purple Room" },
+          { day: "Tuesday", name: "Wisp Tumble/Jazz", start: "5:15", end: "6:00", room: "Green Room" },
+          { day: "Tuesday", name: "Pointe (Invite Only)", start: "6:10", end: "7:10", room: "Purple Room" },
+          { day: "Tuesday", name: "Luna Jazz", start: "7:15", end: "8:15", room: "Purple Room" },
+          { day: "Tuesday", name: "Moonbeam Hip-Hop", start: "7:15", end: "8:15", room: "Green Room" },
+          { day: "Tuesday", name: "Moonbeam Tap", start: "8:15", end: "9:15", room: "Purple Room" },
+          { day: "Wednesday", name: "Wisp HipHop", start: "4:15", end: "5:00", room: "Green Room" },
+          { day: "Wednesday", name: "Musical Theatre", start: "4:15", end: "5:00", room: "Purple Room" },
+          { day: "Wednesday", name: "Spark & Firefly HipHop", start: "5:05", end: "5:50", room: "Green Room" },
+          { day: "Wednesday", name: "Advanced Tumble", start: "5:05", end: "6:05", room: "Purple Room" },
+          { day: "Wednesday", name: "Luna HipHop", start: "6:05", end: "7:05", room: "Green Room" },
+          { day: "Wednesday", name: "Firefly Ballet", start: "6:10", end: "7:10", room: "Purple Room" },
+          { day: "Wednesday", name: "Luna & Moonbeam Contemp", start: "7:10", end: "8:10", room: "Purple Room" },
+          { day: "Wednesday", name: "Moonbeam Jazz", start: "7:15", end: "8:15", room: "Green Room" },
+          { day: "Thursday", name: "Wisp Tap/Ballet", start: "4:30", end: "5:15", room: "Green Room" },
+          { day: "Thursday", name: "Spark & Firefly Tap", start: "4:30", end: "5:15", room: "Purple Room" },
+          { day: "Thursday", name: "Spark Soft Shoe", start: "5:20", end: "6:00", room: "Green Room" },
+          { day: "Thursday", name: "Firefly Contemporary", start: "5:20", end: "6:20", room: "Purple Room" },
+          { day: "Thursday", name: "Luna Tap", start: "6:25", end: "7:25", room: "Green Room" },
+          { day: "Thursday", name: "Beg/Int Tumble", start: "6:40", end: "7:30", room: "Purple Room" },
+          { day: "Thursday", name: "Firefly Lyrical", start: "7:30", end: "8:30", room: "Green Room" },
+          { day: "Thursday", name: "Luna/Moon Modern", start: "7:45", end: "8:45", room: "Purple Room" },
+          { day: "Friday", name: "Firefly Jazz", start: "5:00", end: "5:45", room: "Green Room" },
+          { day: "Friday", name: "Luna Lyrical", start: "5:00", end: "5:50", room: "Purple Room" },
+          { day: "Friday", name: "Hard Shoe", start: "5:55", end: "6:40", room: "Purple Room" },
+          { day: "Friday", name: "Luna Soft Shoe", start: "6:45", end: "7:45", room: "Purple Room" },
+          { day: "Friday", name: "Moonbeam Soft Shoe", start: "7:45", end: "8:45", room: "Purple Room" }
+        ];
+
+        // --- 2. UTILITY FUNCTIONS ---
+
+        function getMinutes(timeStr) {
+            let [h, m] = timeStr.split(':').map(Number);
+            if (h < 11) h += 12; 
+            if (h === 12) h = 12; 
+            return (h * 60) + m;
+        }
+
+        function getRoomColorClass(roomName) {
+            if (roomName.toLowerCase().includes('purple')) return 'text-purple';
+            if (roomName.toLowerCase().includes('green')) return 'text-green';
+            return '';
+        }
+
+        function matchesFilter(className, filter) {
+            if (filter === 'all') return true;
+            
+            const lowerName = className.toLowerCase();
+            const lowerFilter = filter.toLowerCase();
+
+            const knownLevels = ['luna', 'moonbeam', 'wisp', 'spark', 'firefly'];
+            if (lowerFilter === 'other') {
+                return !knownLevels.some(level => lowerName.includes(level));
+            }
+
+            return lowerName.includes(lowerFilter);
+        }
+
+        // --- 3. RENDER FUNCTIONS ---
+
+        function createClassRow(cls) {
+            const roomColorClass = getRoomColorClass(cls.room);
+            const borderClass = cls.room.toLowerCase().includes('purple') ? 'border-purple' : 
+                               (cls.room.toLowerCase().includes('green') ? 'border-green' : '');
+
+            return `
+                <div class="class-row ${borderClass}">
+                    <div class="time-col">
+                        <div style="font-weight:bold">${cls.start}</div>
+                        <div>${cls.end}</div>
+                    </div>
+                    <div class="info-col">
+                        <div class="class-name ${roomColorClass}">${cls.name}</div>
+                        <div class="room-indicator">${cls.room}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateDashboard() {
+            const now = new Date();
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const todayName = days[now.getDay()];
+            const nowMins = (now.getHours() * 60) + now.getMinutes();
+
+            const todayClasses = scheduleData.filter(c => c.day === todayName);
+            
+            const activeClasses = todayClasses.filter(c => {
+                const start = getMinutes(c.start);
+                const end = getMinutes(c.end);
+                return nowMins >= start && nowMins < end;
+            });
+
+            const upcomingClasses = todayClasses.filter(c => getMinutes(c.start) > nowMins);
+
+            const heroName = document.getElementById('hero-class-name');
+            const heroRoom = document.getElementById('hero-room');
+            
+            if (activeClasses.length > 0) {
+                heroName.innerText = activeClasses.length > 1 ? `${activeClasses.length} Classes Active` : activeClasses[0].name;
+                heroName.className = activeClasses.length === 1 ? getRoomColorClass(activeClasses[0].room) : '';
+                heroRoom.innerText = activeClasses.length === 1 ? activeClasses[0].room : "Check list below";
+            } else {
+                heroName.innerText = "Quiet Time";
+                heroName.className = "";
+                heroRoom.innerText = "No classes in session";
+            }
+
+            const dashList = document.getElementById('dashboard-list');
+            if (upcomingClasses.length === 0) {
+                dashList.innerHTML = '<div style="opacity:0.6; font-style:italic">No more classes today.</div>';
+            } else {
+                dashList.innerHTML = upcomingClasses.map(cls => createClassRow(cls)).join('');
+            }
+        }
+
+        function renderFilteredSchedule(filter) {
+            const container = document.getElementById('schedule-list');
+            const headerLabel = document.getElementById('filter-header');
+            container.innerHTML = '';
+
+            if (filter === 'all') headerLabel.innerText = "Full Weekly Schedule";
+            else if (filter === 'Other') headerLabel.innerText = "Misc Classes";
+            else headerLabel.innerText = `${filter} Schedule`;
+
+            const daysInOrder = ["Tuesday", "Wednesday", "Thursday", "Friday"];
+            
+            daysInOrder.forEach(day => {
+                const dayClasses = scheduleData.filter(c => c.day === day && matchesFilter(c.name, filter));
+
+                if (dayClasses.length > 0) {
+                    const dayHead = document.createElement('div');
+                    dayHead.className = 'day-header';
+                    dayHead.innerText = day;
+                    container.appendChild(dayHead);
+
+                    dayClasses.forEach(cls => {
+                        container.innerHTML += createClassRow(cls);
+                    });
+                }
+            });
+
+            if (container.innerHTML === '') {
+                container.innerHTML = '<div style="padding:20px; text-align:center; opacity:0.5">No classes found for this group.</div>';
+            }
+        }
+
+        // --- NAVIGATION ---
+        function toggleMenu() {
+            const menu = document.getElementById('menu-drawer');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function navigate(view) {
+            document.getElementById('menu-drawer').style.display = 'none';
+            document.querySelectorAll('.page-view').forEach(el => el.style.display = 'none');
+
+            if (view === 'home') {
+                document.getElementById('view-home').style.display = 'block';
+                updateDashboard(); 
+            } else {
+                document.getElementById('view-schedule').style.display = 'block';
+                renderFilteredSchedule(view); 
+            }
+        }
+
+        updateDashboard();
+        setInterval(updateDashboard, 60000); 
+
+    </script>
+</body>
+</html>
