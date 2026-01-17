@@ -516,90 +516,7 @@
             `;
         }
 
-                function updateDashboard() {
-            const now = new Date();
-            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const todayName = days[now.getDay()];
-            const nowMins = (now.getHours() * 60) + now.getMinutes();
-
-            const todayClasses = scheduleData.filter(c => c.day === todayName);
-            const upcomingClasses = todayClasses.filter(c => getMinutes(c.start) > nowMins);
-
-            const activePurple = todayClasses.find(c => {
-                const start = getMinutes(c.start);
-                const end = getMinutes(c.end);
-                return c.room.includes("Purple") && nowMins >= start && nowMins < end;
-            });
-
-            const activeGreen = todayClasses.find(c => {
-                const start = getMinutes(c.start);
-                const end = getMinutes(c.end);
-                return c.room.includes("Green") && nowMins >= start && nowMins < end;
-            });
-
-            // 4. Update Purple Box (Back to Stage Clear/Magic)
-            if (activePurple) {
-                document.getElementById('purple-class-name').innerText = activePurple.name;
-                document.getElementById('purple-status').innerText = `Until ${activePurple.end}`;
-                document.getElementById('box-purple').style.opacity = "1";
-            } else {
-                document.getElementById('purple-class-name').innerText = "Stage Clear";
-                document.getElementById('purple-status').innerText = "Magic Loading...";
-                document.getElementById('box-purple').style.opacity = "0.5";
-            }
-
-            // 5. Update Green Box (Back to Stage Clear/Magic)
-            if (activeGreen) {
-                document.getElementById('green-class-name').innerText = activeGreen.name;
-                document.getElementById('green-status').innerText = `Until ${activeGreen.end}`;
-                document.getElementById('box-green').style.opacity = "1";
-            } else {
-                document.getElementById('green-class-name').innerText = "Stage Clear";
-                document.getElementById('green-status').innerText = "Magic Loading...";
-                document.getElementById('box-green').style.opacity = "0.5";
-            }
-
-            // 6. Update List Below (THIS IS THE FUN PART)
-            const dashList = document.getElementById('dashboard-list');
-            if (upcomingClasses.length === 0) {
-                // Director Vibe on Line 1, Teacher Vibe on Line 2
-                dashList.innerHTML = `
-                    <div style="text-align:center; padding: 30px; opacity:0.6;">
-                        <div style="font-size: 1.4rem; font-weight:800; margin-bottom: 5px;">🎬 That's a wrap! 🤸</div>
-                        <div style="font-size: 1rem;">Great job today, dancers!</div>
-                    </div>
-                `;
-            } else {
-                dashList.innerHTML = upcomingClasses.map(cls => createClassRow(cls)).join('');
-            }
-        }
-
-
-        function renderFilteredSchedule(filter) {
-            const container = document.getElementById('schedule-list');
-            const headerLabel = document.getElementById('filter-header');
-            container.innerHTML = '';
-
-            if (filter === 'all') headerLabel.innerText = "Full Weekly Schedule";
-            else if (filter === 'Other') headerLabel.innerText = "Misc Classes";
-            else headerLabel.innerText = `${filter} Schedule`;
-
-            const daysInOrder = ["Tuesday", "Wednesday", "Thursday", "Friday"];
-            
-            daysInOrder.forEach(day => {
-                const dayClasses = scheduleData.filter(c => c.day === day && matchesFilter(c.name, filter));
-
-                if (dayClasses.length > 0) {
-                    const dayHead = document.createElement('div');
-                    dayHead.className = 'day-header';
-                    dayHead.innerText = day;
-                    container.appendChild(dayHead);
-
-                    dayClasses.forEach(cls => {
-                        container.innerHTML += createClassRow(cls);
-                    });
-                }
-            });
+                
 
             if (container.innerHTML === '') {
                 container.innerHTML = '<div style="padding:20px; text-align:center; opacity:0.5">No classes found for this group.</div>';
@@ -619,7 +536,95 @@
             if (view === 'home') {
                 document.getElementById('view-home').style.display = 'block';
                 updateDashboard(); 
+                    function updateDashboard() {
+            const now = new Date();
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const todayName = days[now.getDay()];
+            const nowMins = (now.getHours() * 60) + now.getMinutes();
+
+            // --- TIME CONSTANTS ---
+            const TIME_7AM = 7 * 60;
+            const TIME_830PM = 20 * 60 + 30; // 8:30 PM
+
+            const todayClasses = scheduleData.filter(c => c.day === todayName);
+            const upcomingClasses = todayClasses.filter(c => getMinutes(c.start) > nowMins);
+
+            const activePurple = todayClasses.find(c => {
+                const start = getMinutes(c.start);
+                const end = getMinutes(c.end);
+                return c.room.includes("Purple") && nowMins >= start && nowMins < end;
+            });
+
+            const activeGreen = todayClasses.find(c => {
+                const start = getMinutes(c.start);
+                const end = getMinutes(c.end);
+                return c.room.includes("Green") && nowMins >= start && nowMins < end;
+            });
+
+            // --- LOGIC: WHAT TO SAY WHEN EMPTY? ---
+            function getEmptyMessage() {
+                // 1. NIGHT MODE (Every day: After 8:30 PM or Before 7 AM)
+                if (nowMins >= TIME_830PM || nowMins < TIME_7AM) {
+                    return { title: "Shhh... 🌙", status: "Studio is sleeping..." };
+                }
+                
+                // 2. WEEKEND/MONDAY MODE (Sat, Sun, Mon - Daytime)
+                // (Since we already checked night time above, this only runs during the day)
+                if (todayName === "Saturday" || todayName === "Sunday" || todayName === "Monday") {
+                    return { title: "Relax & Recharge 🔋", status: "No classes today." };
+                }
+
+                // 3. WEEKDAY PRE-GAME (Tues-Fri - Daytime)
+                return { title: "See You Soon! ☀️", status: "Get those dance shoes ready!" };
+            }
+            
+            const msg = getEmptyMessage();
+
+            // Update Purple Box
+            if (activePurple) {
+                document.getElementById('purple-class-name').innerText = activePurple.name;
+                document.getElementById('purple-status').innerText = `Until ${activePurple.end}`;
+                document.getElementById('box-purple').style.opacity = "1";
             } else {
+                document.getElementById('purple-class-name').innerText = msg.title;
+                document.getElementById('purple-status').innerText = msg.status;
+                document.getElementById('box-purple').style.opacity = "0.5";
+            }
+
+            // Update Green Box
+            if (activeGreen) {
+                document.getElementById('green-class-name').innerText = activeGreen.name;
+                document.getElementById('green-status').innerText = `Until ${activeGreen.end}`;
+                document.getElementById('box-green').style.opacity = "1";
+            } else {
+                document.getElementById('green-class-name').innerText = msg.title;
+                document.getElementById('green-status').innerText = msg.status;
+                document.getElementById('box-green').style.opacity = "0.5";
+            }
+
+            // Update List (with specific "End of Day" vs "Weekend" messages)
+            const dashList = document.getElementById('dashboard-list');
+            if (upcomingClasses.length === 0) {
+                 let listTitle = "🎬 That's a wrap! 🤸";
+                 let listSub = "Great job today, dancers!";
+                 
+                 // If it is the weekend/Monday, show a different message in the list area
+                 if (todayName === "Saturday" || todayName === "Sunday" || todayName === "Monday") {
+                     listTitle = "Weekend Vibes 😎";
+                     listSub = "Go practice your splits!";
+                 }
+                 
+                dashList.innerHTML = `
+                    <div style="text-align:center; padding: 30px; opacity:0.6;">
+                        <div style="font-size: 1.4rem; font-weight:800; margin-bottom: 5px;">${listTitle}</div>
+                        <div style="font-size: 1rem;">${listSub}</div>
+                    </div>
+                `;
+            } else {
+                dashList.innerHTML = upcomingClasses.map(cls => createClassRow(cls)).join('');
+            }
+    
+            } {
                 document.getElementById('view-schedule').style.display = 'block';
                 renderFilteredSchedule(view); 
             }
