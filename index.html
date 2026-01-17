@@ -289,7 +289,8 @@
             <div id="green-class-name" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 5px;">Loading...</div>
             <div id="green-status" style="color: #aaa; font-size: 0.9rem;">--</div>
         </div>
-                <div id="announcement-box" style="display: none; background: rgba(255, 215, 0, 0.15); border: 2px solid var(--gold); color: var(--gold); padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 25px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);">
+        
+        <div id="announcement-box" style="display: none; background: rgba(255, 215, 0, 0.15); border: 2px solid var(--gold); color: var(--gold); padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 25px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);">
             <div style="font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">⚠️ Announcement</div>
             <div id="announcement-text" style="font-size: 1rem; font-weight: 400; line-height: 1.4;"></div>
         </div>
@@ -304,7 +305,8 @@
                      style="width: 85%; max-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333;">
             </a>
         </div>
-                <div style="text-align: center; margin-bottom: 30px; margin-top: -10px;">
+        
+        <div style="text-align: center; margin-bottom: 30px; margin-top: -10px;">
             <div style="font-size: 0.8rem; letter-spacing: 2px; color: #a0a0a0; margin-bottom: 5px; text-transform: uppercase;">Time Until Showtime</div>
             
            <div id="countdown-box" style="
@@ -335,7 +337,6 @@
                 </div>
             </div>
         </div>
-
 
         <div style="text-align: center; margin-top: 30px; padding-bottom: 20px; border-top: 1px solid #333; padding-top: 20px;">
             <p style="color: #d674ff; font-size: 0.9rem; margin-bottom: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">✨ Need a Giggle? ✨</p>
@@ -377,16 +378,15 @@
         <div id="schedule-list"></div>
     </div>
 
-        <script>
+    <script>
         // --- 📢 DIRECTOR'S MEGAPHONE 📢 ---
-        // TYPE YOUR MESSAGE INSIDE THE QUOTES BELOW.
-        // IF IT IS EMPTY (""), THE BOX WILL DISAPPEAR.
         const directorMessage = ""; 
         
+        // --- ⏳ COUNTDOWN CONFIG ⏳ ---
+        const recitalDate = new Date("June 27, 2026 12:00:00").getTime();
+
         // --- JOKE ENGINE ---
         const jokes = [
-
-            // --- DANCE & MUSIC ---
             "Why did the dancer cross the road? To get to the barre! 🍫",
             "What is a ballerina's favorite number? Two-two! 🩰",
             "Why are fish so good at dancing? They have great scales! 🐟",
@@ -406,8 +406,6 @@
             "Why did the music teacher need a ladder? To reach the high notes! 🎵",
             "What is a dancer's favorite fruit? The mango! (Man-go dance?) 🥭",
             "How do dancers say goodbye? They wave their jazz hands! 👋",
-
-            // --- MAGIC & FANTASY ---
             "What's a magician's favorite makeup? Vanishing cream! 🧴",
             "Why did the wizard eat his homework? The teacher said it was a piece of cake! 🍰",
             "What do you call a fairy who doesn't wash? Stinkerbell! 🧚‍♀️",
@@ -415,8 +413,6 @@
             "What do you call a sleeping dinosaur? A dino-snore! 🦖",
             "Why are dragons good storytellers? They have long tails! 🐉",
             "What do you call a bear with no teeth? A gummy bear! 🐻",
-
-            // --- ANIMALS ---
             "What do you call a cow with no legs? Ground beef! 🍔",
             "What do you call a cow that can play musical instruments? A Moo-sician! 🐮",
             "Why do seagulls fly over the sea? If they flew over the bay, they'd be bagels! 🥯",
@@ -426,8 +422,6 @@
             "What is a snake's favorite subject? Hiss-tory! 🐍",
             "Why did the pony get sent to his room? He wouldn't quit horsing around! 🐴",
             "What do you call a pig that knows karate? A pork chop! 🥋",
-
-            // --- CLASSIC DAD JOKES ---
             "Why did the tomato turn red? Because it saw the salad dressing! 🥗",
             "Why did the cookie go to the hospital? Because he felt crummy! 🍪",
             "What is brown and sticky? A stick! 🪵",
@@ -462,9 +456,7 @@
 
             display.innerHTML = `<span style="font-weight:600; color:#fff; font-size:1.1rem;">${selectedJoke.replace(/\n/g, '<br>')}</span>`;
         }
-    </script>
-
-    <script>
+        
         // --- DATA ---
         const scheduleData = [
           { day: "Tuesday", name: "Comp. Class", start: "4:00", end: "5:00", room: "Purple Room" },
@@ -505,30 +497,6 @@
             if (h === 12) h = 12; 
             return (h * 60) + m;
         }
-                // --- COUNTDOWN LOGIC ---
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = recitalDate - now;
-
-            if (distance < 0) {
-                document.getElementById("countdown-box").innerHTML = "<div style='color:var(--gold); font-weight:bold; font-size:1.2rem;'>🎉 IT'S SHOWTIME! 🎉</div>";
-                return;
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("cd-days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("cd-hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("cd-minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("cd-seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-        }
-
-        setInterval(updateCountdown, 1000); // Run every second
-        updateCountdown(); // Run immediately on load
-
 
         function getRoomColorClass(roomName) {
             if (roomName.toLowerCase().includes('purple')) return 'text-purple';
@@ -572,7 +540,8 @@
             `;
         }
 
-                function updateDashboard() {
+        // --- CORE FUNCTIONS ---
+        function updateDashboard() {
             // 0. CHECK FOR ANNOUNCEMENTS
             const banner = document.getElementById('announcement-box');
             if (directorMessage && directorMessage.trim() !== "") {
@@ -581,12 +550,6 @@
             } else {
                 banner.style.display = "none";
             }
-
-            // ... (rest of the function continues here) ...
-            
-        // --- ⏳ COUNTDOWN CONFIG ⏳ ---
-        // Set your Recital Date here! (Month Day, Year Time)
-            const recitalDate = new Date("June 27, 2026 12:00:00").getTime();
 
             const now = new Date();
             const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -705,6 +668,27 @@
                 container.innerHTML = '<div style="padding:20px; text-align:center; opacity:0.5">No classes found for this group.</div>';
             }
         }
+        
+        // --- COUNTDOWN LOGIC ---
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = recitalDate - now;
+
+            if (distance < 0) {
+                document.getElementById("countdown-box").innerHTML = "<div style='color:var(--gold); font-weight:bold; font-size:1.2rem;'>🎉 IT'S SHOWTIME! 🎉</div>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("cd-days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("cd-hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("cd-minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("cd-seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
 
         // --- NAVIGATION ---
         function toggleMenu() {
@@ -725,8 +709,12 @@
             }
         }
 
+        // --- INITIALIZE ---
         updateDashboard();
         setInterval(updateDashboard, 60000); 
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
 
     </script>
     
