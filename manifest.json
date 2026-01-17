@@ -1,11 +1,11 @@
 {
-  "name": "Dance Schedule",
-  "short_name": "Dance",
+  "name": "Magic Soles",
+  "short_name": "Magic Soles",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#111111",
   "theme_color": "#d674ff",
-    "icons": [
+  "icons": [
     {
       "src": "Icon.png",
       "sizes": "192x192",
@@ -17,5 +17,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
   ]
 }
