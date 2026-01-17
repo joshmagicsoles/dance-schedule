@@ -289,7 +289,11 @@
             <div id="green-class-name" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 5px;">Loading...</div>
             <div id="green-status" style="color: #aaa; font-size: 0.9rem;">--</div>
         </div>
-        
+                <div id="announcement-box" style="display: none; background: rgba(255, 215, 0, 0.15); border: 2px solid var(--gold); color: var(--gold); padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 25px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);">
+            <div style="font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">⚠️ Announcement</div>
+            <div id="announcement-text" style="font-size: 1rem; font-weight: 400; line-height: 1.4;"></div>
+        </div>
+
         <h3 style="color:var(--text-muted)">Up Next Today</h3>
         <div id="dashboard-list"></div>
 
@@ -341,9 +345,15 @@
         <div id="schedule-list"></div>
     </div>
 
-    <script>
+        <script>
+        // --- 📢 DIRECTOR'S MEGAPHONE 📢 ---
+        // TYPE YOUR MESSAGE INSIDE THE QUOTES BELOW.
+        // IF IT IS EMPTY (""), THE BOX WILL DISAPPEAR.
+        const directorMessage = ""; 
+        
         // --- JOKE ENGINE ---
         const jokes = [
+
             // --- DANCE & MUSIC ---
             "Why did the dancer cross the road? To get to the barre! 🍫",
             "What is a ballerina's favorite number? Two-two! 🩰",
@@ -506,7 +516,18 @@
             `;
         }
 
-        function updateDashboard() {
+                function updateDashboard() {
+            // 0. CHECK FOR ANNOUNCEMENTS
+            const banner = document.getElementById('announcement-box');
+            if (directorMessage && directorMessage.trim() !== "") {
+                banner.style.display = "block";
+                document.getElementById('announcement-text').innerHTML = directorMessage;
+            } else {
+                banner.style.display = "none";
+            }
+
+            // ... (rest of the function continues here) ...
+
             const now = new Date();
             const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             const todayName = days[now.getDay()];
