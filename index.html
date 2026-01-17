@@ -370,6 +370,12 @@
             const lowerName = className.toLowerCase();
             const lowerFilter = filter.toLowerCase();
 
+            // SPECIAL RULE 1: Ballet button finds Pointe
+            if (lowerFilter === 'ballet' && lowerName.includes('pointe')) return true;
+
+            // SPECIAL RULE 2: Contemp button finds Modern
+            if (lowerFilter === 'contemp' && lowerName.includes('modern')) return true;
+
             const knownLevels = ['luna', 'moonbeam', 'wisp', 'spark', 'firefly'];
             if (lowerFilter === 'other') {
                 return !knownLevels.some(level => lowerName.includes(level));
