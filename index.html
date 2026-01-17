@@ -458,5 +458,11 @@
         setInterval(updateDashboard, 60000); 
 
     </script>
+<script>
+    // Register the Service Worker to enable "Install"
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
 </body>
 </html>
