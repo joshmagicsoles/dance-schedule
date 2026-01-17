@@ -300,7 +300,8 @@
                      style="width: 85%; max-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333;">
             </a>
         </div>
-                <div style="text-align: center; margin-top: 30px; padding-bottom: 20px; border-top: 1px solid #333; padding-top: 20px;">
+
+        <div style="text-align: center; margin-top: 30px; padding-bottom: 20px; border-top: 1px solid #333; padding-top: 20px;">
             <p style="color: #d674ff; font-size: 0.9rem; margin-bottom: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">✨ Need a Giggle? ✨</p>
             
             <button onclick="tellJoke()" style="
@@ -333,98 +334,93 @@
             </div>
         </div>
 
-             <script>
-    // --- JOKE ENGINE ---
-   
-        const jokes = [
-        // --- DANCE & MUSIC ---
-        "Why did the dancer cross the road? To get to the barre! 🍫",
-        "What is a ballerina's favorite number? Two-two! 🩰",
-        "Why are fish so good at dancing? They have great scales! 🐟",
-        "How do you make a tissue dance? You put a little boogie in it! 🤧",
-        "Why did the magician wear tap shoes? For the Abra-cadabra-step! 🎩",
-        "Knock knock. \nWho's there? \nWanda. \nWanda who? \nWanda dance? 💃",
-        "What do you call a dancing sheep? A baaa-lerina! 🐑",
-        "Why was the dancer late? She was wearing a leotard! (Late-ard... get it?) ⏰",
-        "What kind of pie do dancers like? Pumpkin Pi-rouette! 🥧",
-        "Why couldn't the skeleton go to the dance? He had no body to go with! 💀",
-        "Why do dancers love math? Because they can count to 5, 6, 7, 8! 🔢",
-        "What dance do owls do? The Hoooo-la! 🦉",
-        "Knock knock. \nWho's there? \nDishes. \nDishes who? \nDishes the best dance ever! 🍽️",
-        "Why did the hip-hop dancer bring a ladder? To reach the high notes! 🪜",
-        "What do ghosts wear to ballet class? Boo-tuhs! 👻",
-        "What do you call a dancing pig? Shake-speare! 🐷",
-        "Why did the music teacher need a ladder? To reach the high notes! 🎵",
-        "What is a dancer's favorite fruit? The mango! (Man-go dance?) 🥭",
-        "How do dancers say goodbye? They wave their jazz hands! 👋",
-
-        // --- MAGIC & FANTASY ---
-        "What's a magician's favorite makeup? Vanishing cream! 🧴",
-        "Why did the wizard eat his homework? The teacher said it was a piece of cake! 🍰",
-        "What do you call a fairy who doesn't wash? Stinkerbell! 🧚‍♀️",
-        "Why can't you give Elsa a balloon? Because she will Let It Go! ❄️",
-        "What do you call a sleeping dinosaur? A dino-snore! 🦖",
-        "Why are dragons good storytellers? They have long tails! 🐉",
-        "What do you call a bear with no teeth? A gummy bear! 🐻",
-
-        // --- ANIMALS ---
-        "What do you call a cow with no legs? Ground beef! 🍔",
-        "What do you call a cow that can play musical instruments? A Moo-sician! 🐮",
-        "Why do seagulls fly over the sea? If they flew over the bay, they'd be bagels! 🥯",
-        "What do you call a pile of cats? A meow-ntain! 🐱",
-        "Why are frogs so happy? They eat whatever bugs them! 🐸",
-        "What do you get if you cross a vampire and a snowman? Frostbite! 🧛",
-        "What is a snake's favorite subject? Hiss-tory! 🐍",
-        "Why did the pony get sent to his room? He wouldn't quit horsing around! 🐴",
-        "What do you call a pig that knows karate? A pork chop! 🥋",
-
-        // --- CLASSIC DAD JOKES ---
-        "Why did the tomato turn red? Because it saw the salad dressing! 🥗",
-        "Why did the cookie go to the hospital? Because he felt crummy! 🍪",
-        "What is brown and sticky? A stick! 🪵",
-        "What did one wall say to the other? I'll meet you at the corner! 🧱",
-        "Why did the math book look sad? Because it had too many problems. 📘",
-        "What falls in winter but never gets hurt? Snow! 🌨️",
-        "Why did the banana go to the doctor? He wasn't peeling well! 🍌",
-        "What goes up but never comes down? Your age! 🎂",
-        "What did the ocean say to the beach? Nothing, it just waved! 🌊",
-        "How does the moon cut his hair? Eclipse it! 🌙",
-        "What do you call a fake noodle? An impasta! 🍝",
-        "Why did the golfer bring two pairs of pants? In case he got a hole in one! ⛳",
-        "What did the left eye say to the right eye? Between you and me, something smells. 👃",
-        "Why was the broom late? It over-swept! 🧹",
-        "What room has no doors or windows? A mushroom! 🍄",
-        "Why couldn't the bicycle stand up by itself? It was two tired! 🚲",
-        "What do you call cheese that isn't yours? Nacho cheese! 🧀",
-        "Why don't eggs tell jokes? They'd crack each other up! 🥚",
-        "What did the zero say to the eight? Nice belt! 0️⃣8️⃣",
-        "Where do pencils go on vacation? Pencil-vania! ✏️"
-    ];
-
-
-    function tellJoke() {
-        // 1. Pick a random joke
-        const randomIndex = Math.floor(Math.random() * jokes.length);
-        const selectedJoke = jokes[randomIndex];
-
-        // 2. Add a little 'pop' animation effect
-        const display = document.getElementById('joke-display');
-        display.style.transform = "scale(0.95)";
-        setTimeout(() => {
-            display.style.transform = "scale(1)";
-        }, 100);
-
-        // 3. Show the joke
-        display.innerHTML = `<span style="font-weight:600; color:#fff; font-size:1.1rem;">${selectedJoke.replace(/\n/g, '<br>')}</span>`;
-    }
-</script>
-   
     </div>
 
     <div id="view-schedule" class="page-view">
         <div id="filter-header">Full Schedule</div>
         <div id="schedule-list"></div>
     </div>
+
+    <script>
+        // --- JOKE ENGINE ---
+        const jokes = [
+            // --- DANCE & MUSIC ---
+            "Why did the dancer cross the road? To get to the barre! 🍫",
+            "What is a ballerina's favorite number? Two-two! 🩰",
+            "Why are fish so good at dancing? They have great scales! 🐟",
+            "How do you make a tissue dance? You put a little boogie in it! 🤧",
+            "Why did the magician wear tap shoes? For the Abra-cadabra-step! 🎩",
+            "Knock knock. \nWho's there? \nWanda. \nWanda who? \nWanda dance? 💃",
+            "What do you call a dancing sheep? A baaa-lerina! 🐑",
+            "Why was the dancer late? She was wearing a leotard! (Late-ard... get it?) ⏰",
+            "What kind of pie do dancers like? Pumpkin Pi-rouette! 🥧",
+            "Why couldn't the skeleton go to the dance? He had no body to go with! 💀",
+            "Why do dancers love math? Because they can count to 5, 6, 7, 8! 🔢",
+            "What dance do owls do? The Hoooo-la! 🦉",
+            "Knock knock. \nWho's there? \nDishes. \nDishes who? \nDishes the best dance ever! 🍽️",
+            "Why did the hip-hop dancer bring a ladder? To reach the high notes! 🪜",
+            "What do ghosts wear to ballet class? Boo-tuhs! 👻",
+            "What do you call a dancing pig? Shake-speare! 🐷",
+            "Why did the music teacher need a ladder? To reach the high notes! 🎵",
+            "What is a dancer's favorite fruit? The mango! (Man-go dance?) 🥭",
+            "How do dancers say goodbye? They wave their jazz hands! 👋",
+
+            // --- MAGIC & FANTASY ---
+            "What's a magician's favorite makeup? Vanishing cream! 🧴",
+            "Why did the wizard eat his homework? The teacher said it was a piece of cake! 🍰",
+            "What do you call a fairy who doesn't wash? Stinkerbell! 🧚‍♀️",
+            "Why can't you give Elsa a balloon? Because she will Let It Go! ❄️",
+            "What do you call a sleeping dinosaur? A dino-snore! 🦖",
+            "Why are dragons good storytellers? They have long tails! 🐉",
+            "What do you call a bear with no teeth? A gummy bear! 🐻",
+
+            // --- ANIMALS ---
+            "What do you call a cow with no legs? Ground beef! 🍔",
+            "What do you call a cow that can play musical instruments? A Moo-sician! 🐮",
+            "Why do seagulls fly over the sea? If they flew over the bay, they'd be bagels! 🥯",
+            "What do you call a pile of cats? A meow-ntain! 🐱",
+            "Why are frogs so happy? They eat whatever bugs them! 🐸",
+            "What do you get if you cross a vampire and a snowman? Frostbite! 🧛",
+            "What is a snake's favorite subject? Hiss-tory! 🐍",
+            "Why did the pony get sent to his room? He wouldn't quit horsing around! 🐴",
+            "What do you call a pig that knows karate? A pork chop! 🥋",
+
+            // --- CLASSIC DAD JOKES ---
+            "Why did the tomato turn red? Because it saw the salad dressing! 🥗",
+            "Why did the cookie go to the hospital? Because he felt crummy! 🍪",
+            "What is brown and sticky? A stick! 🪵",
+            "What did one wall say to the other? I'll meet you at the corner! 🧱",
+            "Why did the math book look sad? Because it had too many problems. 📘",
+            "What falls in winter but never gets hurt? Snow! 🌨️",
+            "Why did the banana go to the doctor? He wasn't peeling well! 🍌",
+            "What goes up but never comes down? Your age! 🎂",
+            "What did the ocean say to the beach? Nothing, it just waved! 🌊",
+            "How does the moon cut his hair? Eclipse it! 🌙",
+            "What do you call a fake noodle? An impasta! 🍝",
+            "Why did the golfer bring two pairs of pants? In case he got a hole in one! ⛳",
+            "What did the left eye say to the right eye? Between you and me, something smells. 👃",
+            "Why was the broom late? It over-swept! 🧹",
+            "What room has no doors or windows? A mushroom! 🍄",
+            "Why couldn't the bicycle stand up by itself? It was two tired! 🚲",
+            "What do you call cheese that isn't yours? Nacho cheese! 🧀",
+            "Why don't eggs tell jokes? They'd crack each other up! 🥚",
+            "What did the zero say to the eight? Nice belt! 0️⃣8️⃣",
+            "Where do pencils go on vacation? Pencil-vania! ✏️"
+        ];
+
+        function tellJoke() {
+            const randomIndex = Math.floor(Math.random() * jokes.length);
+            const selectedJoke = jokes[randomIndex];
+
+            const display = document.getElementById('joke-display');
+            display.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                display.style.transform = "scale(1)";
+            }, 100);
+
+            display.innerHTML = `<span style="font-weight:600; color:#fff; font-size:1.1rem;">${selectedJoke.replace(/\n/g, '<br>')}</span>`;
+        }
+    </script>
 
     <script>
         // --- DATA ---
@@ -461,7 +457,6 @@
         ];
 
         // --- UTILITY ---
-
         function getMinutes(timeStr) {
             let [h, m] = timeStr.split(':').map(Number);
             if (h < 11) h += 12; 
@@ -481,12 +476,8 @@
             const lowerName = className.toLowerCase();
             const lowerFilter = filter.toLowerCase();
 
-            // RULE: Ballet finds Pointe
             if (lowerFilter === 'ballet' && lowerName.includes('pointe')) return true;
-
-            // REMOVED: The rule that grouped Modern into Contemp
             
-            // Default Search
             const knownLevels = ['luna', 'moonbeam', 'wisp', 'spark', 'firefly'];
             if (lowerFilter === 'other') {
                 return !knownLevels.some(level => lowerName.includes(level));
@@ -496,7 +487,6 @@
         }
 
         // --- RENDER ---
-
         function createClassRow(cls) {
             const roomColorClass = getRoomColorClass(cls.room);
             const borderClass = cls.room.toLowerCase().includes('purple') ? 'border-purple' : 
@@ -516,27 +506,7 @@
             `;
         }
 
-                
-
-            if (container.innerHTML === '') {
-                container.innerHTML = '<div style="padding:20px; text-align:center; opacity:0.5">No classes found for this group.</div>';
-            }
-        }
-
-        // --- NAVIGATION ---
-        function toggleMenu() {
-            const menu = document.getElementById('menu-drawer');
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-        }
-
-        function navigate(view) {
-            document.getElementById('menu-drawer').style.display = 'none';
-            document.querySelectorAll('.page-view').forEach(el => el.style.display = 'none');
-
-            if (view === 'home') {
-                document.getElementById('view-home').style.display = 'block';
-                updateDashboard(); 
-                    function updateDashboard() {
+        function updateDashboard() {
             const now = new Date();
             const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             const todayName = days[now.getDay()];
@@ -569,7 +539,6 @@
                 }
                 
                 // 2. WEEKEND/MONDAY MODE (Sat, Sun, Mon - Daytime)
-                // (Since we already checked night time above, this only runs during the day)
                 if (todayName === "Saturday" || todayName === "Sunday" || todayName === "Monday") {
                     return { title: "Relax & Recharge 🔋", status: "No classes today." };
                 }
@@ -623,8 +592,53 @@
             } else {
                 dashList.innerHTML = upcomingClasses.map(cls => createClassRow(cls)).join('');
             }
-    
-            } {
+        }
+
+        function renderFilteredSchedule(filter) {
+            const container = document.getElementById('schedule-list');
+            const headerLabel = document.getElementById('filter-header');
+            container.innerHTML = '';
+
+            if (filter === 'all') headerLabel.innerText = "Full Weekly Schedule";
+            else if (filter === 'Other') headerLabel.innerText = "Misc Classes";
+            else headerLabel.innerText = `${filter} Schedule`;
+
+            const daysInOrder = ["Tuesday", "Wednesday", "Thursday", "Friday"];
+            
+            daysInOrder.forEach(day => {
+                const dayClasses = scheduleData.filter(c => c.day === day && matchesFilter(c.name, filter));
+
+                if (dayClasses.length > 0) {
+                    const dayHead = document.createElement('div');
+                    dayHead.className = 'day-header';
+                    dayHead.innerText = day;
+                    container.appendChild(dayHead);
+
+                    dayClasses.forEach(cls => {
+                        container.innerHTML += createClassRow(cls);
+                    });
+                }
+            });
+
+            if (container.innerHTML === '') {
+                container.innerHTML = '<div style="padding:20px; text-align:center; opacity:0.5">No classes found for this group.</div>';
+            }
+        }
+
+        // --- NAVIGATION ---
+        function toggleMenu() {
+            const menu = document.getElementById('menu-drawer');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function navigate(view) {
+            document.getElementById('menu-drawer').style.display = 'none';
+            document.querySelectorAll('.page-view').forEach(el => el.style.display = 'none');
+
+            if (view === 'home') {
+                document.getElementById('view-home').style.display = 'block';
+                updateDashboard(); 
+            } else {
                 document.getElementById('view-schedule').style.display = 'block';
                 renderFilteredSchedule(view); 
             }
@@ -634,7 +648,9 @@
         setInterval(updateDashboard, 60000); 
 
     </script>
+    
     <script>
+        // Service Worker for Install
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
