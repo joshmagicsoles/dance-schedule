@@ -304,6 +304,38 @@
                      style="width: 85%; max-width: 350px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333;">
             </a>
         </div>
+                <div style="text-align: center; margin-bottom: 30px; margin-top: -10px;">
+            <div style="font-size: 0.8rem; letter-spacing: 2px; color: #a0a0a0; margin-bottom: 5px; text-transform: uppercase;">Time Until Showtime</div>
+            
+           <div id="countdown-box" style="
+                display: flex; 
+                justify-content: center; 
+                gap: 10px; 
+                font-family: monospace; 
+                color: #fff;">
+                
+                <div style="background: #222; padding: 8px; border-radius: 6px; border: 1px solid #333; min-width: 50px;">
+                    <div id="cd-days" style="font-size: 1.5rem; font-weight: 800; color: var(--purple-room);">00</div>
+                    <div style="font-size: 0.6rem; color: #888; text-transform: uppercase;">Days</div>
+                </div>
+
+                <div style="background: #222; padding: 8px; border-radius: 6px; border: 1px solid #333; min-width: 50px;">
+                    <div id="cd-hours" style="font-size: 1.5rem; font-weight: 800; color: #fff;">00</div>
+                    <div style="font-size: 0.6rem; color: #888; text-transform: uppercase;">Hrs</div>
+                </div>
+
+                <div style="background: #222; padding: 8px; border-radius: 6px; border: 1px solid #333; min-width: 50px;">
+                    <div id="cd-minutes" style="font-size: 1.5rem; font-weight: 800; color: #fff;">00</div>
+                    <div style="font-size: 0.6rem; color: #888; text-transform: uppercase;">Mins</div>
+                </div>
+
+                <div style="background: #222; padding: 8px; border-radius: 6px; border: 1px solid #333; min-width: 50px;">
+                    <div id="cd-seconds" style="font-size: 1.5rem; font-weight: 800; color: var(--green-room);">00</div>
+                    <div style="font-size: 0.6rem; color: #888; text-transform: uppercase;">Secs</div>
+                </div>
+            </div>
+        </div>
+
 
         <div style="text-align: center; margin-top: 30px; padding-bottom: 20px; border-top: 1px solid #333; padding-top: 20px;">
             <p style="color: #d674ff; font-size: 0.9rem; margin-bottom: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">✨ Need a Giggle? ✨</p>
@@ -473,6 +505,30 @@
             if (h === 12) h = 12; 
             return (h * 60) + m;
         }
+                // --- COUNTDOWN LOGIC ---
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = recitalDate - now;
+
+            if (distance < 0) {
+                document.getElementById("countdown-box").innerHTML = "<div style='color:var(--gold); font-weight:bold; font-size:1.2rem;'>🎉 IT'S SHOWTIME! 🎉</div>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("cd-days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("cd-hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("cd-minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("cd-seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+
+        setInterval(updateCountdown, 1000); // Run every second
+        updateCountdown(); // Run immediately on load
+
 
         function getRoomColorClass(roomName) {
             if (roomName.toLowerCase().includes('purple')) return 'text-purple';
@@ -527,6 +583,10 @@
             }
 
             // ... (rest of the function continues here) ...
+            
+        // --- ⏳ COUNTDOWN CONFIG ⏳ ---
+        // Set your Recital Date here! (Month Day, Year Time)
+            const recitalDate = new Date("June 20, 2026 12:00:00").getTime();
 
             const now = new Date();
             const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
