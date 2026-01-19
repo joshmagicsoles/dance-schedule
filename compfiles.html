@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Imperials Team Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --purple-room: #d674ff; 
+            --green-room: #00e676; 
+            --gold: #ffd700;
+            --border: #333333;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+
+        /* --- LOGO HEADER --- */
+        .logo-header {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        .logo-circle {
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--green-room); /* The Green Ring */
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.3);
+            background: #000;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 { color: var(--gold); text-align: center; margin-bottom: 5px; margin-top: 0; }
+        .subtitle { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 0; margin-bottom: 30px; }
+
+        /* --- PASSWORD GATE --- */
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .login-box {
+            background: var(--surface-color);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        input {
+            width: 100%; padding: 12px; margin: 15px 0;
+            background: #000; border: 1px solid #444;
+            color: #fff; border-radius: 8px; text-align: center;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: var(--purple-room); color: #fff;
+            border: none; padding: 12px 25px;
+            border-radius: 50px; font-weight: 800;
+            cursor: pointer; width: 100%;
+            text-transform: uppercase;
+        }
+
+        /* --- MAIN CONTENT (Hidden Initially) --- */
+        #portal-content { display: none; }
+
+        /* --- ACCORDIONS --- */
+        details {
+            background: var(--surface-color);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to right, rgba(255,255,255,0.03), transparent);
+        }
+
+        summary::after { content: '+'; color: var(--green-room); font-size: 1.5rem; font-weight: 300; }
+        details[open] summary::after { content: '-'; color: var(--purple-room); }
+        details[open] summary { border-bottom: 1px solid var(--border); color: var(--text-main); }
+
+        .folder-content { padding: 15px; }
+
+        /* --- TRACK ITEM --- */
+        .track-item {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+        }
+        .track-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .track-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+            color: #fff;
+        }
+
+        /* --- SMART MEDIA CONTAINERS --- */
+        .media-container { margin-top: 10px; }
+        
+        .tag {
+            font-size: 0.7rem; font-weight: bold; text-transform: uppercase;
+            padding: 3px 8px; border-radius: 4px; margin-right: 5px;
+            display: inline-block; margin-bottom: 5px;
+        }
+        .tag.audio { background: rgba(0, 230, 118, 0.15); color: var(--green-room); }
+        .tag.video { background: rgba(214, 116, 255, 0.15); color: var(--purple-room); }
+
+        .coming-soon-msg {
+            font-size: 0.85rem; color: #666; font-style: italic;
+            background: #1a1a1a; padding: 8px; border-radius: 5px;
+            border: 1px dashed #444; display: inline-block;
+        }
+
+        audio { width: 100%; height: 35px; border-radius: 5px; }
+        .video-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0;
+            overflow: hidden; border-radius: 8px; background: #000;
+        }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        .back-btn {
+            display: block; width: 100%; max-width: 200px; margin: 40px auto;
+            text-align: center; padding: 15px; border-radius: 50px;
+            background: #333; color: #fff; text-decoration: none;
+            font-weight: 600; font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="login-overlay">
+        <div class="login-box">
+            <div class="logo-header" style="margin-top:0;">
+                <div class="logo-circle">
+                    <img src="Icon.png" class="logo-img" alt="Logo">
+                </div>
+            </div>
+            <h2 style="color:var(--gold); margin-top:10px;">Imperials Team</h2>
+            <p style="color:#aaa; font-size:0.9rem;">Enter Team Password</p>
+            <input type="password" id="password-input" placeholder="Password">
+            <button onclick="checkPassword()">Unlock Files</button>
+            <p id="error-msg" style="color:#ff4444; font-size:0.8rem; display:none; margin-top:10px;">Incorrect Password</p>
+        </div>
+    </div>
+
+    <div id="portal-content">
+        
+        <div class="logo-header">
+            <div class="logo-circle">
+                <img src="Icon.png" class="logo-img" alt="Logo">
+            </div>
+        </div>
+        
+        <h1>Imperials Hub</h1>
+        <p class="subtitle">Competition Music & Videos</p>
+
+        <details>
+            <summary>🎤 Solos</summary>
+            <div class="folder-content">
+                <div class="track-item">
+                    <span class="track-title">Solo Routine 1</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Solo Routine 2</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Solo Routine 3</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Solo Routine 4</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+            </div>
+        </details>
+
+        <details>
+            <summary>👯 Duos</summary>
+            <div class="folder-content">
+                <div class="track-item">
+                    <span class="track-title">Duo Routine 1</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Duo Routine 2</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Duo Routine 3</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Duo Routine 4</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+            </div>
+        </details>
+
+        <details>
+            <summary>✨ Trios</summary>
+            <div class="folder-content">
+                <div class="track-item">
+                    <span class="track-title">Trio Routine 1</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Trio Routine 2</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Trio Routine 3</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Trio Routine 4</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+            </div>
+        </details>
+
+        <details>
+            <summary>🎭 Small Groups</summary>
+            <div class="folder-content">
+                <div class="track-item">
+                    <span class="track-title">Group Routine 1</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Group Routine 2</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Group Routine 3</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+                <div class="track-item">
+                    <span class="track-title">Group Routine 4</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+            </div>
+        </details>
+
+        <a href="index.html" class="back-btn">← Back to Dashboard</a>
+    </div>
+
+    <script>
+        // 1. PASSWORD LOGIC
+        function checkPassword() {
+            const pass = document.getElementById('password-input').value;
+            // PASSWORD IS SET TO "imperials"
+            if(pass === "imperials") {
+                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('portal-content').style.display = 'block';
+                initMedia(); // Load the players only after login
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        // 2. SMART MEDIA LOADER
+        function initMedia() {
+            // AUDIO
+            document.querySelectorAll('.smart-audio').forEach(box => {
+                const link = box.getAttribute('data-src');
+                if (!link || link === "") {
+                    box.innerHTML = `<span class="tag audio">Music</span> <div class="coming-soon-msg">Coming Soon...</div>`;
+                } else {
+                    box.innerHTML = `<span class="tag audio">Music</span> <audio controls src="${link}"></audio>`;
+                }
+            });
+
+            // VIDEO
+            document.querySelectorAll('.smart-video').forEach(box => {
+                const link = box.getAttribute('data-src');
+                if (!link || link === "") {
+                    box.style.display = 'none'; // Hide video box if empty
+                } else {
+                    box.innerHTML = `
+                        <span class="tag video">Video</span> 
+                        <div class="video-wrapper">
+                            <iframe src="${link}" frameborder="0" allowfullscreen></iframe>
+                        </div>`;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
