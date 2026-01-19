@@ -156,3 +156,115 @@
         /* BACK BUTTON */
         .back-btn {
             display: block; width: 100%; max-width: 200px; margin: 40px auto;
+            text-align: center; padding: 15px; border-radius: 50px;
+            background: #333; color: #fff; text-decoration: none;
+            font-weight: 600; font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2 style="color:var(--gold); margin-top:0;">Restricted Access</h2>
+            <p style="color:#aaa; font-size:0.9rem;">Please enter the admin password to edit or view files.</p>
+            <input type="password" id="password-input" placeholder="Enter Password">
+            <button onclick="checkPassword()">Unlock</button>
+            <p id="error-msg" style="color:#ff4444; font-size:0.8rem; display:none; margin-top:10px;">Incorrect Password</p>
+        </div>
+    </div>
+
+    <div id="portal-content">
+        <h1>Recital Portal</h1>
+        <p class="subtitle">Music, Videos & Practice Scripts</p>
+
+        <details>
+            <summary>Wisp Classes (Ages 3-5)</summary>
+            <div class="folder-content">
+                
+                <div class="track-item">
+                    <span class="track-title text-green">Wisp Tumble & Jazz</span>
+                    
+                    <div class="media-container smart-audio" data-src="INSERT_LINK_HERE.mp3"></div>
+                    
+                    <div class="media-container smart-video" data-src=""></div>
+                </div>
+
+                <div class="track-item">
+                    <span class="track-title text-purple">Wisp Tap / Ballet</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                </div>
+
+            </div>
+        </details>
+
+        <details>
+            <summary>Youth Rec (Ages 6+)</summary>
+            <div class="folder-content">
+                
+                <div class="track-item">
+                    <span class="track-title text-green">Spark Hip Hop</span>
+                    <div class="media-container smart-audio" data-src="spark_hiphop.mp3"></div>
+                </div>
+
+                <div class="track-item">
+                    <span class="track-title text-purple">Level 1 Ballet</span>
+                    <div class="media-container smart-audio" data-src=""></div>
+                </div>
+
+            </div>
+        </details>
+
+        <a href="index.html" class="back-btn">← Back to Dashboard</a>
+    </div>
+
+    <script>
+        // 1. PASSWORD LOGIC
+        function checkPassword() {
+            const pass = document.getElementById('password-input').value;
+            // CHANGE PASSWORD HERE
+            if(pass === "admin") {
+                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('portal-content').style.display = 'block';
+                initMedia(); // Load the players only after login
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        // 2. SMART MEDIA LOADER (If/Else Logic)
+        function initMedia() {
+            
+            // Handle AUDIO
+            document.querySelectorAll('.smart-audio').forEach(box => {
+                const link = box.getAttribute('data-src');
+                if (!link || link === "" || link.includes("INSERT")) {
+                    // ELSE: No Link
+                    box.innerHTML = `<span class="tag audio">Music</span> <div class="coming-soon-msg">Coming Soon...</div>`;
+                } else {
+                    // IF: Valid Link
+                    box.innerHTML = `<span class="tag audio">Music</span> <audio controls src="${link}"></audio>`;
+                }
+            });
+
+            // Handle VIDEO
+            document.querySelectorAll('.smart-video').forEach(box => {
+                const link = box.getAttribute('data-src');
+                if (!link || link === "" || link.includes("INSERT")) {
+                    // ELSE: No Link -> Show nothing or Coming Soon? 
+                    // Let's hide videos completely if missing to save space
+                    box.style.display = 'none';
+                } else {
+                    // IF: Valid Link
+                    box.innerHTML = `
+                        <span class="tag video">Video</span> 
+                        <div class="video-wrapper">
+                            <iframe src="${link}" frameborder="0" allowfullscreen></iframe>
+                        </div>`;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
