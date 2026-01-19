@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Practice Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --purple-room: #d674ff; 
+            --green-room: #00e676; 
+            --gold: #ffd700;
+            --border: #333333;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+
+        /* --- PASSWORD GATE --- */
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .login-box {
+            background: var(--surface-color);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        input {
+            width: 100%; padding: 12px; margin: 15px 0;
+            background: #000; border: 1px solid #444;
+            color: #fff; border-radius: 8px; text-align: center;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: var(--purple-room); color: #fff;
+            border: none; padding: 12px 25px;
+            border-radius: 50px; font-weight: 800;
+            cursor: pointer; width: 100%;
+            text-transform: uppercase;
+        }
+
+        /* --- MAIN CONTENT (Hidden Initially) --- */
+        #portal-content { display: none; }
+
+        h1 { color: var(--gold); text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 0; margin-bottom: 30px; }
+
+        /* --- ACCORDIONS --- */
+        details {
+            background: var(--surface-color);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to right, rgba(255,255,255,0.03), transparent);
+        }
+
+        summary::after { content: '+'; color: var(--green-room); font-size: 1.5rem; font-weight: 300; }
+        details[open] summary::after { content: '-'; color: var(--purple-room); }
+        details[open] summary { border-bottom: 1px solid var(--border); color: var(--text-main); }
+
+        .folder-content { padding: 15px; }
+
+        /* NESTED FOLDERS */
+        details details {
+            margin-left: 15px;
+            border-left: 3px solid var(--purple-room);
+            background: rgba(0,0,0,0.2);
+            border-right: none; border-bottom: none; border-top: none;
+        }
+        details details summary { font-size: 0.9rem; padding: 12px; }
+
+        /* --- TRACK ITEM --- */
+        .track-item {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+        }
+        .track-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .track-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* COLORS FOR CLASS NAMES */
+        .text-purple { color: var(--purple-room); }
+        .text-green { color: var(--green-room); }
+
+        /* --- SMART MEDIA CONTAINERS --- */
+        .media-container { margin-top: 10px; }
+        
+        .tag {
+            font-size: 0.7rem; font-weight: bold; text-transform: uppercase;
+            padding: 3px 8px; border-radius: 4px; margin-right: 5px;
+            display: inline-block; margin-bottom: 5px;
+        }
+        .tag.audio { background: rgba(0, 230, 118, 0.15); color: var(--green-room); }
+        .tag.video { background: rgba(214, 116, 255, 0.15); color: var(--purple-room); }
+
+        /* The "Coming Soon" State */
+        .coming-soon-msg {
+            font-size: 0.85rem; color: #666; font-style: italic;
+            background: #1a1a1a; padding: 8px; border-radius: 5px;
+            border: 1px dashed #444; display: inline-block;
+        }
+
+        /* Players */
+        audio { width: 100%; height: 35px; border-radius: 5px; }
+        .video-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0;
+            overflow: hidden; border-radius: 8px; background: #000;
+        }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        /* BACK BUTTON */
+        .back-btn {
+            display: block; width: 100%; max-width: 200px; margin: 40px auto;
